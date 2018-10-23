@@ -5,10 +5,20 @@
         <img src="@/assets/logo.png" alt="Vuetify.js" class="mb-5">
         <blockquote>
           &#8220;Make me come.&#8221;
+          <div v-show="lyric.id">
+            <p>{{lyric.jpLyric}}</p>
+            <p>{{lyric.cnLyric}}</p>
+            <p>{{lyric.at}} @ {{lyric.name}} - {{lyric.album}}</p>
+            <v-btn color="accent" :href="encoreSite">GO!</v-btn>
+          </div>
+          
           <footer>
             <small>
               <em>&mdash;Van Darkholme</em>
             </small>
+            <v-btn color="primary" @click="getLrc">
+              <v-icon>refresh</v-icon>
+            </v-btn>
           </footer>
         </blockquote>
       </v-layout>
@@ -17,10 +27,36 @@
 </template>
 
 <script>
+import axios from '../utils/axios'
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  data() {
+    return {
+      lyric: {
+        cnLyric: '',
+        jpLyric: '',
+        at: '',
+        name: '',
+        album: '',
+        type: '',
+        id: 0
+      }
+    }
+  },
+  computed: {
+    encoreSite () {
+      return `https://encore.roselia.moe/#${this.lyric.type}/${this.lyric.id}${['st', 'nd', 'rd'][this.lyric.id - 1] || 'th'}`
+    }
+  },
+  methods: {
+    getLrc() {
+      axios.get('https://roselia.moe/blog/api/roselia/lyric/random').then(data => {
+        this.lyric = data
+      })
+    }
   }
 }
 </script>

@@ -4,9 +4,14 @@ import './plugins/vuetify'
 import App from './App.vue'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import './plugins/progress'
+import router from './plugins/router'
 
 Vue.config.productionTip = false
 
-new Vue({
-  render: h => h(App)
+const app = new Vue({
+  render: h => h(App),
+  router
 }).$mount('#app')
+
+export default app
