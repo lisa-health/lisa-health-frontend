@@ -27,6 +27,8 @@
     <v-toolbar
       app
       :clipped-left="clipped"
+      color="primary"
+      dark
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-btn icon @click.stop="miniVariant = !miniVariant">
@@ -38,7 +40,7 @@
       <v-btn icon @click.stop="fixed = !fixed">
         <v-icon>web</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-toolbar-title v-text="realTitle"></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>menu</v-icon>
@@ -91,6 +93,11 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'Lisa Health'
+    }
+  },
+  computed: {
+    realTitle() {
+      return this.$route.meta.title || this.title
     }
   },
   created () {

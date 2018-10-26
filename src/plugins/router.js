@@ -14,12 +14,18 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: Index
+      component: Index,
+      meta: {
+        title: 'Lisa Health'
+      }
     },
     {
       path: '/diagnosis',
       name: 'diagnosis',
-      component: Diagnosis
+      component: Diagnosis,
+      meta: {
+        title: 'Diagnosis'
+      }
     },
     {
       path: '/intro',

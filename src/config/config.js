@@ -1,11 +1,11 @@
 export default {
   theme: {
-    primary: '#6670ed',
-    secondary: '#890f87',
-    accent: '#dd0087',
-    error: '#FF4A4A',
-    warning: '#dd2200',
-    info: '#00aabc',
-    success: '#229977'
+      primary: "#fa7298",
+      secondary: "#fdb4c8",
+      accent: "#fe61c1",
+      error: "#f44336",
+      warning: "#feb12c",
+      info: "#2dbbe7",
+      success: "#4caf50"
   }
 }

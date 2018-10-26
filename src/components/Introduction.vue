@@ -179,5 +179,7 @@ export default {
 }
 </script>
 <style>
-
+body {
+    background: #66ccff;
+}
 </style>
