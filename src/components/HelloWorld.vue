@@ -2,7 +2,8 @@
   <v-container fluid>
     <v-slide-y-transition mode="out-in">
       <v-layout column align-center>
-        <img src="@/assets/logo.png" alt="Vuetify.js" class="mb-5">
+        <img v-if="!lyric.picUrl" src="@/assets/logo.png" alt="Vuetify.js" class="mb-5">
+        <img v-else :src="lyric.picUrl" :alt="lyric.name" class="mb-5">
         <blockquote>
           &#8220;Make me come.&#8221;
           <div v-show="lyric.id">
@@ -15,6 +16,7 @@
           <footer>
             <small>
               <em>&mdash;Van Darkholme</em>
+              <router-link to="/diagnosis">That's good!</router-link>
             </small>
             <v-btn color="primary" @click="getLrc">
               <v-icon>refresh</v-icon>
@@ -42,6 +44,7 @@ export default {
         name: '',
         album: '',
         type: '',
+        picUrl: '',
         id: 0
       }
     }
