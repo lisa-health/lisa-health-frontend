@@ -24,13 +24,29 @@ export default new Router({
       name: 'diagnosis',
       component: Diagnosis,
       meta: {
-        title: 'Diagnosis'
+        title: '智能诊断'
       }
     },
     {
       path: '/intro',
       name: 'introduction',
       component: Introduction
+    },
+    {
+      path: '/aids',
+      name: 'aids',
+      component: Diagnosis,
+      meta: {
+        title: '急救查询'
+      }
+    },
+    {
+      path: '/symlab',
+      name: 'symlab',
+      component: Diagnosis,
+      meta: {
+        title: '疾病百科'
+      }
     }
   ]
 })
