@@ -7,16 +7,6 @@
       color="primary"
       dark
     >
-      
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon v-html="miniVariant = 'chevron_left'"></v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
-        <v-icon>home</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>web</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="realTitle" ></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
@@ -34,12 +24,38 @@
       app
     >
       <v-list>
-        <v-list-tile @click="right = !right">
-          <v-list-tile-action>
-            <v-icon>compare_arrows</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-        </v-list-tile>
+        <router-link to="/">
+          <v-list-tile>
+            <v-list-tile-action>
+              <div class="iconfont">&#xe612;</div>
+            </v-list-tile-action>
+            <v-list-tile-title>首页</v-list-tile-title>
+          </v-list-tile>
+        </router-link>
+        <router-link to="/diagnosis">
+          <v-list-tile>
+            <v-list-tile-action>
+              <div class="iconfont">&#xe617;</div>
+            </v-list-tile-action>
+            <v-list-tile-title>智能诊断</v-list-tile-title>
+          </v-list-tile>
+        </router-link>
+        <router-link to="/aids">
+          <v-list-tile>
+            <v-list-tile-action>
+              <div class="iconfont">&#xe62d;</div>
+            </v-list-tile-action>
+            <v-list-tile-title>急救查询</v-list-tile-title>
+          </v-list-tile>
+        </router-link>
+        <router-link to="/symlab">
+          <v-list-tile>
+            <v-list-tile-action>
+              <div class="iconfont">&#xe626;</div>
+            </v-list-tile-action>
+            <v-list-tile-title>疾病百科</v-list-tile-title>
+          </v-list-tile>
+        </router-link>
       </v-list>
     </v-navigation-drawer>
     <v-footer :fixed="fixed" app>
@@ -75,6 +91,11 @@ export default {
   computed: {
     realTitle() {
       return this.$route.meta.title || this.title
+    }
+  },
+  methods:{
+    Gohome() {
+      <router-link to="/diagnosis"></router-link>
     }
   },
   created () {
