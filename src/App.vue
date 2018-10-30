@@ -24,38 +24,30 @@
       app
     >
       <v-list>
-        <router-link to="/">
-          <v-list-tile>
-            <v-list-tile-action>
-              <div class="iconfont">&#xe612;</div>
-            </v-list-tile-action>
-            <v-list-tile-title>首页</v-list-tile-title>
-          </v-list-tile>
-        </router-link>
-        <router-link to="/diagnosis">
-          <v-list-tile>
-            <v-list-tile-action>
-              <div class="iconfont">&#xe617;</div>
-            </v-list-tile-action>
-            <v-list-tile-title>智能诊断</v-list-tile-title>
-          </v-list-tile>
-        </router-link>
-        <router-link to="/aids">
-          <v-list-tile>
-            <v-list-tile-action>
-              <div class="iconfont">&#xe62d;</div>
-            </v-list-tile-action>
-            <v-list-tile-title>急救查询</v-list-tile-title>
-          </v-list-tile>
-        </router-link>
-        <router-link to="/symlab">
-          <v-list-tile>
-            <v-list-tile-action>
-              <div class="iconfont">&#xe626;</div>
-            </v-list-tile-action>
-            <v-list-tile-title>疾病百科</v-list-tile-title>
-          </v-list-tile>
-        </router-link>
+        <v-list-tile ripple to="/">
+          <v-list-tile-action>
+            <div class="iconfont">&#xe612;</div>
+          </v-list-tile-action>
+          <v-list-tile-title>首页</v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile ripple to="/diagnosis">
+          <v-list-tile-action>
+            <div class="iconfont">&#xe617;</div>
+          </v-list-tile-action>
+          <v-list-tile-title>智能诊断</v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile ripple to="/aids">
+          <v-list-tile-action>
+            <div class="iconfont">&#xe62d;</div>
+          </v-list-tile-action>
+          <v-list-tile-title>急救查询</v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile ripple to="/symlab">
+          <v-list-tile-action>
+            <div class="iconfont">&#xe626;</div>
+          </v-list-tile-action>
+          <v-list-tile-title>疾病百科</v-list-tile-title>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-footer :fixed="fixed" app>
