@@ -50,7 +50,7 @@
         </v-list-tile>
         <v-list-tile ripple to="/hospitalsearch">
           <v-list-tile-action>
-            <div class="iconfont"></div>
+            <div class="iconfont">&#xe619;</div>
           </v-list-tile-action>
           <v-list-tile-title>医院查询</v-list-tile-title>
         </v-list-tile>
