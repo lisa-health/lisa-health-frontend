@@ -29,6 +29,9 @@
                     >
                     {{tipMsg}}
                     </v-alert>
+                    <china-map
+                        @city-changed="changeSpelling"
+                    ></china-map>
 
 
 
@@ -45,10 +48,12 @@
                     </v-expansion-panel-content>
                         <div v-observe-visibility="visibilityChanged">
                             <div v-if="hasNextPage">
-                                <v-btn v-if="!loading" small @click="loadNextPage" block color="secondary" dark>
+                                <v-btn :loading="loading" small @click="loadNextPage" block color="secondary" dark>
                                     <v-icon>keyboard_arrow_down</v-icon>
                                 </v-btn>
-                                <v-progress-circular color="primary" v-else></v-progress-circular>
+                            </div>
+                            <div v-else-if="loading">
+                                <v-progress-circular indeterminate color="primary"></v-progress-circular>
                             </div>
                             
                         </div>
@@ -68,15 +73,19 @@
 
 <script>
     import axios from '../utils/axios'
+    import ChinaMap from './ChinaMap'
     export default {
         name: "HospitalSearch",
+        components: {
+            'china-map': ChinaMap
+        },
         data(){
             return{
                 spelling:'',
                 results:[],
                 loading: false,
                 currentPage: 1,
-                nextPage: 2,
+                nextPage: 1,
                 searchParams: 'search_name',
                 onWarn:false,
                 tipMsg:''
@@ -153,6 +162,10 @@
                     this.results = this.results.concat(data.result.hospitalList)
                     this.nextPage = data.result.pageTurn.nextPage
                     this.loading = false
+                }).catch(error => {
+                    console.error(error)
+                    this.tip('搜索失败了，是不是网线被掐了？')
+                    this.loading = false
                 })
             },
             visibilityChanged (visible) {
@@ -161,6 +174,9 @@
             tip(msg) {
                 this.tipMsg = msg
                 this.onWarn = true
+            },
+            changeSpelling(val) {
+                this.spelling = val
             }
         },
         watch: {
