@@ -3,24 +3,41 @@
         <v-slide-y-transition>
             <v-layout id="layoutCss" align-center justify-center>
                 <v-flex xs12 sm6>
+
                     <v-btn :to="{name: 'index'}" small round color="primary">
                         <v-icon>arrow_back</v-icon>
                     </v-btn>
+
                     <v-text-field
                             label="请输入城市拼音或输入特定医院名字"
                             v-model="spelling"
                             @keyup.enter="Search"
                             hint="For example, HK or beijing "
                     ></v-text-field>
+
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn :disabled="!spelling" @click="Search"  round color="accent" :loading="loading" dark>
+                        <v-btn :disabled="!spelling"  @click="Search"  round color="accent" :loading="loading" dark>
                             <v-icon>search</v-icon>
                         </v-btn>
                     </v-card-actions>
+                    <div v-if="onWarn">
+                      <v-alert
+                        :value="true"
+                        type="error"
+                        transition="scale-transition"
+                        dismissible
+                      >{{tipMsg}}
+                      </v-alert>
+                     </div>
+
+
+
+
                     <v-expansion-panel>
                         <v-expansion-panel-content v-for="(result,i) in results"  :key="i" >
-                            <div slot="header">{{ result.NAME }}({{result.HOSPITAL_GRADE}}) </div>
+                          <!-- 在医院没有等级时，不显示括号 -->
+                            <div slot="header"> {{ result.NAME }} ({{result.HOSPITAL_GRADE}}) </div>
                             <v-card>
                                 <v-card-text>
                                     医院类型：{{result.HOSPITAL_TYPE}}<br/>{{"地址："+ result.STREET }}
@@ -41,6 +58,11 @@
 
 </template>
 
+
+
+
+
+
 <script>
     import axios from '../utils/axios'
     export default {
@@ -52,7 +74,9 @@
                 loading: false,
                 currentPage: 1,
                 nextPage: 2,
-                searchParams: 'search_name'
+                searchParams: 'search_name',
+                onWarn:false,
+                tipMsg:''
             }
         },
         methods:{
@@ -63,11 +87,17 @@
                 const reg3 = /\d/
                 const reg4 = /[~'!@#￥$%^&*()-+_=:\.]/
                 if(!this.spelling.trim()){
-                    alert('搜索内容不能为空')
+                    //弹出一个带颜色的提示框
+                    this.tipMsg = '你为什么不输入值啊？'
+                    this.onWarn = true
+                    // alert('搜索内容不能为空')
                     return
                 }
                 if(reg3.test(this.spelling.trim()) || reg4.test(this.spelling.trim())){
-                    alert('请输入合法值')
+                    //弹出一个带颜色的提示框
+                    // alert('请输入合法值')
+                    this.tipMsg = '你输入的真烂！'
+                    this.onWarn = true
                     return
                 }
                 this.currentPage = 1
@@ -85,7 +115,9 @@
                         }).catch(error => {
                         console.log(error)
                         this.loading = false
-                        alert('搜索失败，请输入有效值')
+                        // alert('搜索失败，请输入有效值')
+                        this.tipMsg = '搜索失败了！'
+                        this.onWarn = true
                     })
                 }
                 if(reg2.test(this.spelling.trim())){
@@ -102,7 +134,9 @@
                         }).catch(error => {
                         console.log(error)
                         this.loading = false
-                        alert('搜索失败，请输入有效值')
+                        // alert('搜索失败，请输入有效值')
+                        this.tipMsg = '搜索失败了！'
+                        this.onWarn = true
                     })
                 }
             },
