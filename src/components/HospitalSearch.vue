@@ -21,15 +21,14 @@
                             <v-icon>search</v-icon>
                         </v-btn>
                     </v-card-actions>
-                    <div v-if="onWarn">
-                      <v-alert
-                        :value="true"
-                        type="error"
-                        transition="scale-transition"
-                        dismissible
-                      >{{tipMsg}}
-                      </v-alert>
-                     </div>
+                    <v-alert
+                    v-model="onWarn"
+                    type="error"
+                    transition="scale-transition"
+                    dismissible
+                    >
+                    {{tipMsg}}
+                    </v-alert>
 
 
 
@@ -37,7 +36,7 @@
                     <v-expansion-panel>
                         <v-expansion-panel-content v-for="(result,i) in results"  :key="i" >
                           <!-- 在医院没有等级时，不显示括号 -->
-                            <div slot="header"> {{ result.NAME }} ({{result.HOSPITAL_GRADE}}) </div>
+                            <div slot="header"> {{ result.NAME }} <span v-if="result.HOSPITAL_GRADE">({{result.HOSPITAL_GRADE}})</span> </div>
                             <v-card>
                                 <v-card-text>
                                     医院类型：{{result.HOSPITAL_TYPE}}<br/>{{"地址："+ result.STREET }}
@@ -45,9 +44,13 @@
                             </v-card>
                     </v-expansion-panel-content>
                         <div v-observe-visibility="visibilityChanged">
-                            <v-btn small v-if="hasNextPage" @click="loadNextPage" block color="secondary" dark>
-                                <v-icon>keyboard_arrow_down</v-icon>
-                            </v-btn>
+                            <div v-if="hasNextPage">
+                                <v-btn v-if="!loading" small @click="loadNextPage" block color="secondary" dark>
+                                    <v-icon>keyboard_arrow_down</v-icon>
+                                </v-btn>
+                                <v-progress-circular color="primary" v-else></v-progress-circular>
+                            </div>
+                            
                         </div>
                         <!-- <div v-else>Finale</div> -->
                     </v-expansion-panel>
@@ -111,6 +114,7 @@
                             layoutCss.setAttribute("align-start","true")
                             this.results = data.result.hospitalList
                             this.nextPage = data.result.pageTurn.nextPage
+                            this.results.length || this.tip('嗯？竟然没有结果？')
                             this.loading = false
                         }).catch(error => {
                         console.log(error)
@@ -130,6 +134,7 @@
                             layoutCss.setAttribute("align-start","true")
                             this.results = data.result.hospitalList
                             this.nextPage = data.result.pageTurn.nextPage
+                            this.results.length || this.tip('嗯？竟然没有结果？')
                             this.loading = false
                         }).catch(error => {
                         console.log(error)
@@ -141,7 +146,7 @@
                 }
             },
             loadNextPage () {
-                if (!this.hasNextPage) return
+                if (!this.hasNextPage) return this.loading = false
                 this.loading = true
                 this.currentPage = this.nextPage
                 axios.get(this.requestPath).then(data => {
@@ -152,13 +157,19 @@
             },
             visibilityChanged (visible) {
                 visible && this.loadNextPage()
+            },
+            tip(msg) {
+                this.tipMsg = msg
+                this.onWarn = true
             }
         },
         watch: {
             spelling () {
                 this.results = []
                 this.currentPage = 1
-                this.hasNextPage = false
+                this.nextPage = 1
+                this.loading = false
+                this.onWarn = false
             }
         },
         computed: {

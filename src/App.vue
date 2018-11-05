@@ -48,7 +48,7 @@
           </v-list-tile-action>
           <v-list-tile-title>疾病百科</v-list-tile-title>
         </v-list-tile>
-        <v-list-tile ripple to="/hospitalsearch">
+        <v-list-tile ripple to="/hospital-search">
           <v-list-tile-action>
             <div class="iconfont">&#xe619;</div>
           </v-list-tile-action>
