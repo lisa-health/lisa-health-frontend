@@ -31,11 +31,11 @@
           <v-list-tile-title>首页</v-list-tile-title>
         </v-list-tile>
         <v-list-tile ripple to="/diagnosis">
-          <v-list-tile-action>
-            <div class="iconfont">&#xe617;</div>
-          </v-list-tile-action>
-          <v-list-tile-title>智能诊断</v-list-tile-title>
-        </v-list-tile>
+         <v-list-tile-action>
+           <div class="iconfont">&#xe617;</div>
+         </v-list-tile-action>
+         <v-list-tile-title>智能诊断</v-list-tile-title>
+       </v-list-tile>
         <v-list-tile ripple to="/aids">
           <v-list-tile-action>
             <div class="iconfont">&#xe62d;</div>
@@ -47,6 +47,12 @@
             <div class="iconfont">&#xe626;</div>
           </v-list-tile-action>
           <v-list-tile-title>疾病百科</v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile ripple to="/hospital-search">
+          <v-list-tile-action>
+            <div class="iconfont">&#xe619;</div>
+          </v-list-tile-action>
+          <v-list-tile-title>医院查询</v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
@@ -63,7 +69,7 @@ import HelloWorld from './components/HelloWorld'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HelloWorld,
   },
   data () {
     return {
