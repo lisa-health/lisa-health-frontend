@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Index from '../components/HelloWorld'
 import Diagnosis from '../components/Diagnosis'
 import Introduction from '../components/Introduction'
+import HospitalSearch from '../components/HospitalSearch'
 
 Vue.use(Router)
 
@@ -47,6 +48,14 @@ export default new Router({
       meta: {
         title: '疾病百科'
       }
-    }
+    },
+      {
+       path:'/HospitalSearch',
+       name:'HospitalSearch',
+       component:HospitalSearch,
+          meta:{
+         title:'医院查询'
+          }
+      }
   ]
 })

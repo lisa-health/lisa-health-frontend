@@ -5,14 +5,14 @@
         <img v-if="!lyric.picUrl" src="@/assets/logo.jpg" alt="Vuetify.js" class="mb-5">
         <img v-else :src="lyric.picUrl" :alt="lyric.name" class="mb-5">
         <blockquote>
-          &#8220;Make me cum.&#8221;
+          &#8220;Make me come.&#8221;
           <div v-show="lyric.id">
             <p>{{lyric.jpLyric}}</p>
             <p>{{lyric.cnLyric}}</p>
             <p>{{lyric.at}} @ {{lyric.name}} - {{lyric.album}}</p>
             <v-btn color="accent" :href="encoreSite">GO!</v-btn>
           </div>
-
+          
           <footer>
             <small>
               <em>&mdash;Van Darkholme</em>

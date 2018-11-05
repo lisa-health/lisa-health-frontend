@@ -7,6 +7,9 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import './plugins/progress'
 import router from './plugins/router'
 import './assets/iconfont.css'
+import { ObserveVisibility } from 'vue-observe-visibility'
+
+Vue.directive('observe-visibility', ObserveVisibility)
 
 Vue.config.productionTip = false
 
