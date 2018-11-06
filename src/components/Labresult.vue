@@ -13,15 +13,14 @@
           <v-text-field
           label="想要了解?"
           v-model="searchMsg"
-          @keyup.enter="bus"
+          @keyup.enter="Search"
           hint="你可以试试这些？"
           ></v-text-field>
 
           <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn :disabled="!searchMsg"
-              @click="bus"
-              :to="{name: 'S_result'}"              
+              @click="Search"
               round
               color="accent"
               :loading="loading"
@@ -31,11 +30,12 @@
           </v-card-actions>
 
           <v-expansion-panel>
-            <v-expansion-panel-content v-for="(result,i) in results"  :key="i">
-              <div slot="header"> {{ result.NAME }} </div>
-              <v-card>
+            <v-expansion-panel-content v-for="(s_result,i) in results"  :key="i">
+              <div slot="header"> {{ s_result.name }} </div>
+              <v-card :to="{name: 'index'}">
                   <v-card-text>
-                      医院类型：{{result.HOSPITAL_TYPE}}<br/>{{"地址："+ result.STREET }}
+                      第一科室:{{s_result.firstDepartment}}{{"  第二科室:"+ s_result.secondDepartment }}<br>
+                      {{s_result.introduction}}
                   </v-card-text>
               </v-card>
 
@@ -51,30 +51,41 @@
 
 <script>
 
-
-import axios from '../utils/axios'
+import axios from "../utils/axios";
 export default {
   name: "Symlab",
-  data(){
+  data() {
     return {
-      searchMsg:'',
-      results:[],
+      searchMsg: "",
+      results: [],
       loading: false,
       currentPage: 1,
       nextPage: 2,
-    }
+    };
   },
-  methods:{
-      bus(){
-          
-      }
+  methods: {
+    Search: function() {
+      const reg1 = /^[A-z]+$/;
+      const reg2 = /^[\u4e00-\u9fa5]+$/;
+      const reg3 = /\d/;
+      const reg4 = /[~'!@#￥$%^&*()-+_=:\.]/;
+        axios
+          .get(
+            "https://health.lisa.moe/api/wiki/search/?name=" + this.searchMsg
+          )
+          .then(result => {
+            this.results = result.data;
+          });
+    },
+    mounted(){
+        let self = this
+        
+            self.searchMsg = data
+        
+    }
   }
-
-  }
-
-
+}
 </script>
 
 <style>
-
 </style>

@@ -6,7 +6,8 @@ import Diagnosis from '../components/Diagnosis'
 import Introduction from '../components/Introduction'
 import HospitalSearch from '../components/HospitalSearch'
 import NotFound from '../components/NotFound'
-
+import Symlab from '../components/Symlab'
+import Labresult from '../components/Labresult'
 Vue.use(Router)
 
 
@@ -44,8 +45,8 @@ export default new Router({
     },
     {
       path: '/symlab',
-      name: 'symlab',
-      component: Diagnosis,
+      name: 'Symlab',
+      component: Symlab,
       meta: {
         title: '疾病百科'
       }
@@ -64,6 +65,14 @@ export default new Router({
       component: NotFound,
       meta: {
         title: '噢，你的页面消失了'
+      }
+    },
+    {
+      path:'/Symlab/labresult',
+      name:'S_result',
+      component:Labresult,
+      meta:{
+        title:'病症查询结果'
       }
     }
   ]
