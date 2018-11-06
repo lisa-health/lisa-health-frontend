@@ -1,7 +1,57 @@
 <template>
   <div>
+    <v-btn @click="goBack" fab small color="accent"><v-icon>arrow_back</v-icon></v-btn>
     <span>当前选中了: {{ cityName || '-' }}</span>
-    <ve-map :data="chartData" :settings="chartSettings" :events="chartEvents"></ve-map>
+    <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
+    <v-layout wrap row>
+        <v-flex md8 xs12>
+            <ve-map :data="chartData" :settings="chartSettings" :events="chartEvents"></ve-map>
+        </v-flex>
+        <v-flex md4 xs12>
+            <v-card>
+                <v-card-title>
+                    {{cityName}}
+                    <v-spacer></v-spacer>
+                    <v-text-field
+                        v-model="search"
+                        append-icon="search"
+                        label="Search"
+                        single-line
+                        hide-details
+                    ></v-text-field>
+                </v-card-title>
+                <v-data-table
+                :items="childrenDistrict"
+                :search="search"
+                :headers="[{
+                        text: '城市名称',
+                        align: 'left',
+                        sortable: true,
+                        value: 'name'
+                    }]"
+                >
+                    <template slot="items" slot-scope="props">
+                        <td><v-list-tile
+                            ripple
+                            :key="props.item.pinyin"
+                            @click="chartClicked(props.item.id)"
+                        >
+
+                            <v-list-tile-content>
+                            <v-list-tile-title>{{ props.item.name }}{{ props.item.suffix }}</v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile></td>
+                    </template>
+                    <v-alert slot="no-results" :value="true" color="error" icon="warning">
+                        竟然找不到 "{{ search }}" 了？
+                    </v-alert>
+                </v-data-table>
+            </v-card>
+                
+            
+        </v-flex>
+    </v-layout>
+    
   </div>
 </template>
 
@@ -11,52 +61,23 @@ import VCMap from 'v-charts/lib/map.common'
     data () {
       return {
         cityName: '',
+        selectId: 0,
+        lastId: 0,
+        search: '',
         chartData: {
             columns: ['name', 'value'],
           rows: [
-            {name: '北京', value: 0},
-                {name: '天津', value: 0},
-                {name: '上海', value: 0},
-                {name: '重庆', value: 0},
-                {name: '河北', value: 0},
-                {name: '河南', value: 0},
-                {name: '云南', value: 0},
-                {name: '辽宁', value: 0},
-                {name: '黑龙江', value: 0},
-                {name: '湖南', value: 0},
-                {name: '安徽', value: 0},
-                {name: '山东', value: 0},
-                {name: '新疆', value: 0},
-                {name: '江苏', value: 0},
-                {name: '浙江', value: 0},
-                {name: '江西', value: 0},
-                {name: '湖北', value: 0},
-                {name: '广西', value: 0},
-                {name: '甘肃', value: 0},
-                {name: '山西', value: 0},
-                {name: '内蒙古', value: 0},
-                {name: '陕西', value: 0},
-                {name: '吉林', value: 0},
-                {name: '福建', value: 0},
-                {name: '贵州', value: 0},
-                {name: '广东', value: 0},
-                {name: '青海', value: 0},
-                {name: '西藏', value: 0},
-                {name: '四川', value: 0},
-                {name: '宁夏', value: 0},
-                {name: '海南', value: 0},
-                {name: '台湾', value: 0},
-                {name: '香港', value: 0},
-                {name: '澳门', value: 0}
+            
           ]
         },
         chartSettings: {
             position: 'china',
+            roam: true,
             // selectData: true,
             selectedMode: 'single',
             itemStyle: {
                 normal: {
-                    borderColor: this.$vuetify.theme.primary,
+                    borderColor: this.$vuetify.theme.secondary,
                     areaColor: this.$vuetify.theme.primary
                 },
                 emphasis:{
@@ -72,14 +93,70 @@ import VCMap from 'v-charts/lib/map.common'
         chartEvents: {
             click: (v) => {
                 this.cityName = v.name
-                this.chartSettings.position = 'province/' + v.name
-                this.$emit('city-changed', v.name)
+                const {id, pinyin} = this.districtMapping[v.name]
+                this.chartClicked(id)
             }
-        }
+        },
+        loading: true,
+        districtMapping: {},
+        districtRelation: {}
       }
+    },
+    methods: {
+        backToIndex() {
+            this.chartSettings.position = 'china'
+            this.$emit('city-changed', '')
+            this.cityName = ''
+            this.selectId = 0
+        },
+        goBack() {
+            this.lastId ? this.chartClicked(this.lastId) : this.backToIndex()
+        },
+        loadRows () {
+            const keys = Object.keys(this.districtMapping)
+            this.chartData.rows = keys.map(k => ({name: k, value: 0}))
+        },
+        chartClicked (id) {
+            const city = this.districtRelation[id]
+            this.cityName = city.name
+            const name = city.pinyin
+            this.selectId = id
+            this.lastId = city.parent_id
+            if (name) {
+                this.chartSettings.position = id ? ('province/' + name) : "china"
+                this.$emit('city-changed', name)
+            }
+        },
+        createSelector (sel) {
+            return () => this.chartClicked(sel)
+        }
     },
     components: {
         've-map': VCMap
+    },
+    mounted() {
+        import('../json/citiesRelation.json').then(d => {
+            d = d.default
+            this.districtRelation = d
+            this.loading = false
+            const mapping = {}
+            Object.values(d).map(v => {
+                mapping[v.name] = mapping[v.name + v.suffix] = mapping[v.name] || {
+                    pinyin: v.pinyin,
+                    id: v.id
+                }
+            })
+            this.districtMapping = mapping
+            this.loadRows()
+        })
+    },
+    computed: {
+        childrenDistrict () {
+            if (!this.selectId) return Object.values(this.districtRelation).filter(x => !x.parent_id)
+            const city = this.districtRelation[this.selectId]
+            if (!city) return []
+            return city.children.map(x => this.districtRelation[x])
+        }
     }
   }
 </script>
