@@ -8,13 +8,18 @@
       dark
     >
       <v-toolbar-title v-text="realTitle" ></v-toolbar-title>
+      <v-btn to="/" icon>
+        <v-icon>home</v-icon>
+      </v-btn>
       <v-spacer></v-spacer>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>menu</v-icon>
       </v-btn>
     </v-toolbar>
     <v-content>
-      <router-view></router-view>
+      <v-scale-transition hide-on-leave>
+        <router-view></router-view>
+      </v-scale-transition>
     </v-content>
     <v-navigation-drawer
       temporary
@@ -56,8 +61,24 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-footer :fixed="fixed" app>
-      <span>&copy; 2018</span>
+    <v-footer
+      height="auto"
+      class="oneness"
+    >
+      <v-layout
+        justify-center
+        row
+        wrap
+      >
+        <v-flex
+          py-3
+          text-xs-center
+          white--text
+          xs12
+        >
+          &copy;{{(new Date).getFullYear()}} — <strong>Lisa Health Team</strong>
+        </v-flex>
+      </v-layout>
     </v-footer>
     <vue-progress-bar></vue-progress-bar>
   </v-app>
@@ -119,3 +140,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.oneness {
+  background: linear-gradient(45deg, #fe61c1 15%, #fdb4c8 85%);
+}
+</style>

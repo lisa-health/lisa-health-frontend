@@ -5,7 +5,7 @@
     <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
     <v-layout wrap row>
         <v-flex md8 xs12>
-            <ve-map :data="chartData" :settings="chartSettings" :events="chartEvents"></ve-map>
+            <ve-map class="hidden-sm-and-down" :data="chartData" :settings="chartSettings" :events="chartEvents"></ve-map>
         </v-flex>
         <v-flex md4 xs12>
             <v-card>
@@ -122,6 +122,7 @@ import VCMap from 'v-charts/lib/map.common'
             const name = city.pinyin
             this.selectId = id
             this.lastId = city.parent_id
+            this.search = ''
             if (name) {
                 this.chartSettings.position = id ? ('province/' + name) : "china"
                 this.$emit('city-changed', name)

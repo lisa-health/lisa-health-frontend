@@ -55,6 +55,10 @@
                             <div v-else-if="loading">
                                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
                             </div>
+                            <div v-else-if="results.length">
+                                <v-divider></v-divider>
+                                我也是有底线的
+                            </div>
                             
                         </div>
                         <!-- <div v-else>Finale</div> -->
