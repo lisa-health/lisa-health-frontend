@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-slide-y-transition mode="out-in">
       <v-layout column align-center>
-        <img v-if="!lyric.picUrl" src="@/assets/logo.jpg" alt="Vuetify.js" class="mb-5">
+        <img v-if="!lyric.picUrl" src="@/assets/logo.png" alt="Vuetify.js" class="mb-5">
         <img v-else :src="lyric.picUrl" :alt="lyric.name" class="mb-5">
         <blockquote>
           &#8220;Make me cum.&#8221;
