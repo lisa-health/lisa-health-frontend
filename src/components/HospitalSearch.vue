@@ -4,15 +4,15 @@
             <v-layout id="layoutCss" align-center justify-center>
                 <v-flex xs12 sm6>
 
-                    <v-btn :to="{name: 'index'}" small round color="primary">
+                    <!-- <v-btn :to="{name: 'index'}" small round color="primary">
                         <v-icon>arrow_back</v-icon>
-                    </v-btn>
+                    </v-btn> -->
 
                     <v-text-field
                             label="请输入城市拼音或输入特定医院名字"
                             v-model="spelling"
                             @keyup.enter="Search"
-                            hint="For example, HK or beijing "
+                            hint="For example, 牙科 or beijing "
                     ></v-text-field>
 
                     <v-card-actions>
@@ -42,7 +42,13 @@
                             <div slot="header"> {{ result.NAME }} <span v-if="result.HOSPITAL_GRADE">({{result.HOSPITAL_GRADE}})</span> </div>
                             <v-card>
                                 <v-card-text>
-                                    医院类型：{{result.HOSPITAL_TYPE}}<br/>{{"地址："+ result.STREET }}
+                                    <div v-if="result.HOSPITAL_TAGS_NAME">
+                                        <v-chip color="secondary" :key="tag" v-for="tag in result.HOSPITAL_TAGS_NAME.split('/')">{{tag}}</v-chip>
+                                    </div>
+                                    <div v-if="result.HOSPITAL_TYPE">
+                                        医院类型：{{result.HOSPITAL_TYPE}}
+                                    </div>
+                                    <p>{{"地址："+ result.STREET }}</p>
                                 </v-card-text>
                             </v-card>
                     </v-expansion-panel-content>

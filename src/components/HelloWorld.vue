@@ -18,9 +18,17 @@
               <em>&mdash;Van Darkholme</em>
               <router-link to="/diagnosis">That's good!</router-link>
             </small>
-            <v-btn color="primary" @click="getLrc">
+            <div>
+              <v-btn color="primary" round to="/diagnosis">
+                <div class="iconfont">&#xe617;</div>
+              </v-btn>
+              <v-btn color="primary" round to="/hospital-search">
+                <div class="iconfont">&#xe619;</div>
+              </v-btn>
+            </div>
+            <!-- <v-btn color="primary" @click="getLrc">
               <v-icon>refresh</v-icon>
-            </v-btn>
+            </v-btn> -->
           </footer>
         </blockquote>
       </v-layout>
