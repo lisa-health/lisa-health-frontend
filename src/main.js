@@ -8,6 +8,7 @@ import './plugins/progress'
 import router from './plugins/router'
 import './assets/iconfont.css'
 import { ObserveVisibility } from 'vue-observe-visibility'
+import './registerServiceWorker'
 
 Vue.directive('observe-visibility', ObserveVisibility)
 

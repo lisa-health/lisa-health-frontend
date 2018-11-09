@@ -24,6 +24,10 @@
           >
           <div slot="header">{{ result.name }} ({{ result.probability }}%)</div>
           <v-card>
+              <v-card-text>
+                该疾病可能还有以下症状：
+                <v-chip color="warning" v-for="(relate, i) in result.relateSymptoms" :key="i">{{relate}}</v-chip>
+              </v-card-text>
               <v-card-text>{{ result.detailSymptom }}</v-card-text>
           </v-card>
         </v-expansion-panel-content>
