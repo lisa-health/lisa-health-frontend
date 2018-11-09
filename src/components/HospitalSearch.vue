@@ -31,6 +31,7 @@
                     </v-alert>
                     <china-map
                         @city-changed="changeSpelling"
+                        @commit-search="Search"
                     ></china-map>
 
 

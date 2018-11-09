@@ -15,9 +15,11 @@
                     <v-text-field
                         v-model="search"
                         append-icon="search"
-                        label="Search"
+                        label="搜索"
                         single-line
                         hide-details
+                        @keyup.delete="search || goBack()"
+                        @keyup.enter="uniqueSearchResult && chartClicked(uniqueSearchResult.id), search || commitSearch()"
                     ></v-text-field>
                 </v-card-title>
                 <v-data-table
@@ -29,18 +31,22 @@
                         sortable: true,
                         value: 'name'
                     }]"
+                :custom-filter="pinyinFilter"
+                hide-headers
                 >
                     <template slot="items" slot-scope="props">
-                        <td><v-list-tile
+                        <v-list-tile
                             ripple
-                            :key="props.item.pinyin"
+                            :key="props.item.name"
                             @click="chartClicked(props.item.id)"
                         >
 
                             <v-list-tile-content>
-                            <v-list-tile-title>{{ props.item.name }}{{ props.item.suffix }}</v-list-tile-title>
+                                <v-list-tile-title>
+                                    <td>{{ props.item.name }}{{ props.item.suffix }}</td>
+                                </v-list-tile-title>
                             </v-list-tile-content>
-                        </v-list-tile></td>
+                        </v-list-tile>
                     </template>
                     <v-alert slot="no-results" :value="true" color="error" icon="warning">
                         竟然找不到 "{{ search }}" 了？
@@ -64,6 +70,7 @@ import VCMap from 'v-charts/lib/map.common'
         selectId: 0,
         lastId: 0,
         search: '',
+        uniqueSearchResult: undefined,
         chartData: {
             columns: ['name', 'value'],
           rows: [
@@ -123,6 +130,7 @@ import VCMap from 'v-charts/lib/map.common'
             this.selectId = id
             this.lastId = city.parent_id
             this.search = ''
+            this.uniqueSearchResult = undefined
             if (name) {
                 this.chartSettings.position = id ? ('province/' + name) : "china"
                 this.$emit('city-changed', name)
@@ -130,6 +138,21 @@ import VCMap from 'v-charts/lib/map.common'
         },
         createSelector (sel) {
             return () => this.chartClicked(sel)
+        },
+        pinyinFilter (items, search, filter, headers) {
+            search = search.toString().replace(/'/g, '').toLowerCase().trim()
+            if (search === '') return items
+            if (search === ',' || search === '，') {
+                this.search = ''
+                this.goBack()
+            }
+            const props = ['name', 'pinyin']
+            const result = items.filter(item => props.some(prop => filter(item[prop], search)) || item.name + item.suffix === search)
+            this.uniqueSearchResult = result.length === 1 && result[0]
+            return result
+        },
+        commitSearch () {
+            this.$emit('commit-search')
         }
     },
     components: {
