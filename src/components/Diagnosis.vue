@@ -2,14 +2,14 @@
 <v-container fluid fill-height>
   <v-layout align-center justify-center>
     <v-flex xs12 sm6>
-      <v-btn :to="{name: 'index'}" small round color="primary">
+      <!-- <v-btn :to="{name: 'index'}" small round color="primary">
         <v-icon>arrow_back</v-icon>
-      </v-btn>
+      </v-btn> -->
       <v-text-field
         label="What's up?"
         v-model="symptom"
         @keyup.enter="getDiagnosis"
-        hint="For example, flowers or used cars"
+        hint="Describe your fellings"
       ></v-text-field>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -24,13 +24,17 @@
           >
           <div slot="header">{{ result.name }} ({{ result.probability }}%)</div>
           <v-card>
+              <v-card-text>
+                该疾病可能还有以下症状：
+                <v-chip color="warning" v-for="(relate, i) in result.relateSymptoms" :key="i">{{relate}}</v-chip>
+              </v-card-text>
               <v-card-text>{{ result.detailSymptom }}</v-card-text>
           </v-card>
         </v-expansion-panel-content>
       </v-expansion-panel>
-      <div v-if="shouldFuckYou">
+      <!-- <div v-if="shouldFuckYou">
         Fuck you!
-      </div>
+      </div> -->
     </v-flex>
   </v-layout>
 </v-container>
@@ -60,7 +64,7 @@ export default {
         this.hasInputed = true
         axios.get('https://health.lisa.moe/api/diagnosis/predict/?symptom='+this.symptom)
         .then(data => {
-          this.results = data.disease.filter(x => x.probability > 5)
+          this.results = data.disease //.filter(x => x.probability > 5)
           this.loading = false
         }).catch(error => {
           console.log(error)

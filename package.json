@@ -13,6 +13,7 @@
     "echarts": "^4.2.0-rc.2",
     "lodash": "^4.17.11",
     "material-design-icons-iconfont": "^3.0.3",
+    "register-service-worker": "^1.0.0",
     "roboto-fontface": "*",
     "v-charts": "^1.19.0",
     "vue": "^2.5.17",
@@ -24,9 +25,19 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.4",
     "@vue/cli-plugin-eslint": "^3.0.4",
+    "@vue/cli-plugin-pwa": "^3.1.1",
     "@vue/cli-service": "^3.0.4",
     "vue-cli-plugin-vuetify": "^0.2.0",
     "vue-template-compiler": "^2.5.17"
+  },
+  "vue": {
+    "pwa": {
+      "name": "Lisa Health",
+      "themeColor": "#fa7298",
+      "msTileColor": "#fdb4c8",
+      "appleMobileWebAppCapable": "yes",
+      "appleMobileWebAppStatusBarStyle": "black"
+    }
   },
   "eslintConfig": {
     "root": true,

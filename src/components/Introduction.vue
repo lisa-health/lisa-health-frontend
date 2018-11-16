@@ -178,7 +178,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 body {
     background: #66ccff;
 }

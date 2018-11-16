@@ -4,15 +4,15 @@
             <v-layout id="layoutCss" align-center justify-center>
                 <v-flex xs12 sm6>
 
-                    <v-btn :to="{name: 'index'}" small round color="primary">
+                    <!-- <v-btn :to="{name: 'index'}" small round color="primary">
                         <v-icon>arrow_back</v-icon>
-                    </v-btn>
+                    </v-btn> -->
 
                     <v-text-field
                             label="请输入城市拼音或输入特定医院名字"
                             v-model="spelling"
                             @keyup.enter="Search"
-                            hint="For example, HK or beijing "
+                            hint="For example, 牙科 or beijing "
                     ></v-text-field>
 
                     <v-card-actions>
@@ -29,6 +29,10 @@
                     >
                     {{tipMsg}}
                     </v-alert>
+                    <china-map
+                        @city-changed="changeSpelling"
+                        @commit-search="Search"
+                    ></china-map>
 
 
 
@@ -39,16 +43,28 @@
                             <div slot="header"> {{ result.NAME }} <span v-if="result.HOSPITAL_GRADE">({{result.HOSPITAL_GRADE}})</span> </div>
                             <v-card>
                                 <v-card-text>
-                                    医院类型：{{result.HOSPITAL_TYPE}}<br/>{{"地址："+ result.STREET }}
+                                    <div v-if="result.HOSPITAL_TAGS_NAME">
+                                        <v-chip color="secondary" :key="tag" v-for="tag in result.HOSPITAL_TAGS_NAME.split('/')">{{tag}}</v-chip>
+                                    </div>
+                                    <div v-if="result.HOSPITAL_TYPE">
+                                        医院类型：{{result.HOSPITAL_TYPE}}
+                                    </div>
+                                    <p>{{"地址："+ result.STREET }}</p>
                                 </v-card-text>
                             </v-card>
                     </v-expansion-panel-content>
                         <div v-observe-visibility="visibilityChanged">
                             <div v-if="hasNextPage">
-                                <v-btn v-if="!loading" small @click="loadNextPage" block color="secondary" dark>
+                                <v-btn :loading="loading" small @click="loadNextPage" block color="secondary" dark>
                                     <v-icon>keyboard_arrow_down</v-icon>
                                 </v-btn>
-                                <v-progress-circular color="primary" v-else></v-progress-circular>
+                            </div>
+                            <div v-else-if="loading">
+                                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                            </div>
+                            <div v-else-if="results.length">
+                                <v-divider></v-divider>
+                                我也是有底线的
                             </div>
                             
                         </div>
@@ -68,15 +84,19 @@
 
 <script>
     import axios from '../utils/axios'
+    import ChinaMap from './ChinaMap'
     export default {
         name: "HospitalSearch",
+        components: {
+            'china-map': ChinaMap
+        },
         data(){
             return{
                 spelling:'',
                 results:[],
                 loading: false,
                 currentPage: 1,
-                nextPage: 2,
+                nextPage: 1,
                 searchParams: 'search_name',
                 onWarn:false,
                 tipMsg:''
@@ -153,6 +173,10 @@
                     this.results = this.results.concat(data.result.hospitalList)
                     this.nextPage = data.result.pageTurn.nextPage
                     this.loading = false
+                }).catch(error => {
+                    console.error(error)
+                    this.tip('搜索失败了，是不是网线被掐了？')
+                    this.loading = false
                 })
             },
             visibilityChanged (visible) {
@@ -161,6 +185,9 @@
             tip(msg) {
                 this.tipMsg = msg
                 this.onWarn = true
+            },
+            changeSpelling(val) {
+                this.spelling = val
             }
         },
         watch: {
