@@ -8,6 +8,7 @@ import HospitalSearch from '../components/HospitalSearch'
 import NotFound from '../components/NotFound'
 import Symlab from '../components/Symlab'
 import SymList from '../components/SymList'
+import Aids from '../components/Aids'
 
 Vue.use(Router)
 
@@ -39,7 +40,7 @@ export default new Router({
     {
       path: '/aids',
       name: 'aids',
-      component: Diagnosis,
+      component: Aids,
       meta: {
         title: '急救查询'
       }
