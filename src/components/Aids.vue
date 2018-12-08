@@ -2,9 +2,6 @@
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex xs12 sm6>
-        <!-- <v-btn :to="{name: 'symlist'}" small round color="primary">
-                  <v-icon>arrow_back</v-icon>
-        </v-btn>-->
         <v-text-field
           label="What's wrong?"
           v-model="symmsg"
@@ -25,23 +22,27 @@
           </v-btn>
         </v-card-actions>
         <v-alert :value="warning" type="error" dismissible>{{alert_message}}</v-alert>
-        <v-expansion-panel v-if="isMessage" >
+        <v-expansion-panel v-if="isMessage">
           <v-expansion-panel-content>
-            <div slot="header">急救:{{ result.tips }}</div>
+            <div slot="header">注意事项:{{ result.tips }}</div>
             <v-card>
-              <v-card-text >处理:{{ result.funcs }}</v-card-text>
+              <v-card-text>处理:{{ result.funcs }}</v-card-text>
             </v-card>
           </v-expansion-panel-content>
         </v-expansion-panel>
 
-        <v-data-table :headers="headers" :items="array" >
-          <template slot="no-data">
-            <v-alert :value="true" color="error" icon="warning">Sorry, nothing to display here :(</v-alert>
-          </template>
-          <template slot="items" slot-scope="props">
-            <td align="center"  >{{ props.item }}</td>
-          </template>
-        </v-data-table>
+        <v-expansion-panel inset>
+          <v-expansion-panel-content v-for="(item,i) in array" :key="i" expand-icon=none @click="getmessage(item)"> 
+            <div slot="header" @click="getmessage(item)" align="center" >
+              {{item}}
+                   <!--  <a href="" @click.prevent="getmessage(item)" >{{item}}</a> -->
+            </div>
+            <v-card>
+              <v-card-text v-if="list.tips">注意事项：{{list.tips }}</v-card-text>
+              <v-card-text>处理：{{list.funcs }}</v-card-text>
+            </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
       </v-flex>
     </v-layout>
   </v-container>
@@ -58,14 +59,6 @@ export default {
       isMessage: false,
       warning: false,
       alert_message: "",
-      dataIterator: [
-        {
-          nextPage: 1,
-          prevPage: 1,
-          pageText: "",
-          rowsPerPageText: ""
-        }
-      ],
       headers: [
         {
           text: "所有急救",
@@ -74,17 +67,24 @@ export default {
           value: "array"
         }
       ],
-      array: []
+      array: [],
+      list: []
     };
   },
-  beforeCreate() {
+  mounted() {
     axios.get("https://health.lisa.moe/api/tool/aid/all").then(outcome => {
       this.array.value = false;
       this.array = outcome.result;
-      /*console.log(this.array) */
     });
   },
   methods: {
+    getmessage(name) {
+      axios
+        .get("https://health.lisa.moe/api/tool/aid/?name=" + name)
+        .then(message => {
+          this.list = message.result;
+        });
+    },
     getresult() {
       this.loading = true;
       if (!this.symmsg.trim()) {
@@ -127,4 +127,9 @@ export default {
 </script>
 
 <style>
+a {
+  text-decoration: none;
+  color: black;
+  font-size:18
+}
 </style>
