@@ -32,14 +32,14 @@
         </v-expansion-panel>
 
         <v-expansion-panel inset>
-          <v-expansion-panel-content v-for="(item,i) in array" :key="i" expand-icon=none @click="getmessage(item)"> 
+          <v-expansion-panel-content v-for="(item,i) in array" :key="i" expand-icon=none  @click="getmessage(item)"> 
             <div slot="header" @click="getmessage(item)" align="center" >
               {{item}}
                    <!--  <a href="" @click.prevent="getmessage(item)" >{{item}}</a> -->
             </div>
             <v-card>
               <v-card-text v-if="list.tips">注意事项：{{list.tips }}</v-card-text>
-              <v-card-text>处理：{{list.funcs }}</v-card-text>
+              <v-card-text v-if="list.funcs">处理：{{list.funcs }}</v-card-text>
             </v-card>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -59,26 +59,19 @@ export default {
       isMessage: false,
       warning: false,
       alert_message: "",
-      headers: [
-        {
-          text: "所有急救",
-          align: "center",
-          sortable: false,
-          value: "array"
-        }
-      ],
       array: [],
       list: []
     };
   },
   mounted() {
     axios.get("https://health.lisa.moe/api/tool/aid/all").then(outcome => {
-      this.array.value = false;
       this.array = outcome.result;
+      /* console.log(this.array) */
     });
   },
   methods: {
     getmessage(name) {
+      this.list=[];
       axios
         .get("https://health.lisa.moe/api/tool/aid/?name=" + name)
         .then(message => {
@@ -127,9 +120,4 @@ export default {
 </script>
 
 <style>
-a {
-  text-decoration: none;
-  color: black;
-  font-size:18
-}
 </style>
