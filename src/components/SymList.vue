@@ -3,9 +3,9 @@
         <v-container fluid fill-height>
             <v-layout align-start justify-center>
                 <v-flex xs12 sm6>
-                    <!-- <v-btn :to="{name: 'symlist'}" small round color="primary">
+                     <v-btn :to="{name: 'symlab'}" small round color="primary">
                       <v-icon>arrow_back</v-icon>
-                    </v-btn>-->
+                    </v-btn>
                     <v-text-field
                             label="What's up?"
                             v-model="symmsg"
@@ -24,10 +24,7 @@
 
                     <v-expansion-panel >
                         <v-expansion-panel-content  v-for="(results,i) in result"  :key="i">
-                            <!--v-for="(results,i) in result"-->
-                            <!--:key="i"-->
-
-                            <div slot="header">{{ results.name}} </div>
+                              <div slot="header">{{ results.name}} </div>
                             <v-card>
                                 <v-card-text>第一科室:{{results.firstDepartment}}{{"  第二科室:"+ results.secondDepartment }}<br>
                                     {{results.introduction}}</v-card-text>
@@ -50,7 +47,7 @@
               //this.$route.params.symmsg,
               result:[],
               // this.$route.params.result
-             loading:false
+             loading:false,
             }
         },
         created(){
@@ -90,7 +87,6 @@
                    this.loading = false
                })
            },
-
        }
     }
 </script>
