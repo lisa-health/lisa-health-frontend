@@ -31,9 +31,9 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
 
-        <v-expansion-panel inset>
-          <v-expansion-panel-content v-for="(item,i) in array" :key="i" expand-icon=none  @click="getmessage(item)"> 
-            <div slot="header" @click="getmessage(item)" align="center" >
+        <v-expansion-panel v-model="openedPanel" inset>
+          <v-expansion-panel-content v-for="(item,i) in array" :key="i" >
+            <div slot="header" align="center">
               {{item}}
                    <!--  <a href="" @click.prevent="getmessage(item)" >{{item}}</a> -->
             </div>
@@ -60,7 +60,8 @@ export default {
       warning: false,
       alert_message: "",
       array: [],
-      list: []
+      list: [],
+      openedPanel: null
     };
   },
   mounted() {
@@ -114,6 +115,9 @@ export default {
       this.result = [];
       this.isMessage = false;
       this.warning = false;
+    },
+    openedPanel(val) {
+      this.getmessage(this.array[val])
     }
   }
 };
