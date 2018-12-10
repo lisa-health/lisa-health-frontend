@@ -32,14 +32,22 @@
         </v-expansion-panel>
 
         <v-expansion-panel v-model="openedPanel" inset>
-          <v-expansion-panel-content v-for="(item,i) in array" :key="i" >
+          <v-expansion-panel-content v-for="(item,i) in array" :key="i">
             <div slot="header" align="center">
               {{item}}
-                   <!--  <a href="" @click.prevent="getmessage(item)" >{{item}}</a> -->
+              <!--  <a href="" @click.prevent="getmessage(item)" >{{item}}</a> -->
             </div>
             <v-card>
               <v-card-text v-if="list.tips">注意事项：{{list.tips }}</v-card-text>
               <v-card-text v-if="list.funcs">处理：{{list.funcs }}</v-card-text>
+              <!--                <v-progress-linear v-if="isLoading" :indeterminate="isLoading"></v-progress-linear>-->
+              <v-progress-circular
+                align="right"
+                v-if="isLoading"
+                :size="25"
+                color="primary"
+                :indeterminate="isLoading"
+              ></v-progress-circular>
             </v-card>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -53,6 +61,7 @@ import axios from "../utils/axios";
 export default {
   data() {
     return {
+      isLoading: true,
       result: [],
       loading: false,
       symmsg: "",
@@ -72,10 +81,12 @@ export default {
   },
   methods: {
     getmessage(name) {
-      this.list=[];
+      this.isLoading = true;
+      this.list = [];
       axios
         .get("https://health.lisa.moe/api/tool/aid/?name=" + name)
         .then(message => {
+          this.isLoading = false;
           this.list = message.result;
         });
     },
@@ -117,11 +128,15 @@ export default {
       this.warning = false;
     },
     openedPanel(val) {
-      this.getmessage(this.array[val])
+      this.getmessage(this.array[val]);
+      this.isLoading = true;
     }
   }
 };
 </script>
 
 <style>
+/* .v-progress-circular {
+  align-self: "center";
+} */
 </style>
