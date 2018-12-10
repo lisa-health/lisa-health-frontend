@@ -6,6 +6,10 @@ export default {
       error: "#f44336",
       warning: "#feb12c",
       info: "#2dbbe7",
-      success: "#4caf50"
+      success: "#4caf50",
+      symchip1: "#3CB371",
+      symchip2: "FF6A6A",
+      button1: "66ccff",
+      button2: "836FFF"
   }
 }

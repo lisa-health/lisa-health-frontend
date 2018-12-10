@@ -9,6 +9,8 @@ import NotFound from '../components/NotFound'
 import Symlab from '../components/Symlab'
 import SymList from '../components/SymList'
 import Aids from '../components/Aids'
+import Symdetail from '../components/Symdetail'
+
 
 Vue.use(Router)
 
@@ -76,6 +78,15 @@ export default new Router({
           meta: {
               title: '搜索结果'
           }
+      },
+      {
+          path: '/symdetail',
+          name: 'symdetail',
+          component:Symdetail,
+          meta: {
+              title: '详情'
+          }
       }
+
 ]
 })

@@ -23,11 +23,14 @@
 
 
                     <v-expansion-panel >
-                        <v-expansion-panel-content  v-for="(results,i) in result"  :key="i">
+                        <v-expansion-panel-content  v-for="(results,index) in result" :key="index">
                               <div slot="header">{{ results.name}} </div>
                             <v-card>
-                                <v-card-text>第一科室:{{results.firstDepartment}}{{"  第二科室:"+ results.secondDepartment }}<br>
+                                <v-card-text>  第一科室:{{results.firstDepartment}}  {{"第二科室:"+ results.secondDepartment }}<br>
                                     {{results.introduction}}</v-card-text>
+                                <v-btn @click.native="getdetail(results.name)"  left  round small color="button2" :loading="loading2" dark >
+                                      详情
+                                </v-btn>
                             </v-card>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
@@ -43,11 +46,13 @@
         name: "SymList",
         data(){
             return{
+              value:0,
               symmsg:'',
               //this.$route.params.symmsg,
               result:[],
-              // this.$route.params.result
+              detail: [],
              loading:false,
+             loading2:false,
             }
         },
         created(){
@@ -87,6 +92,27 @@
                    this.loading = false
                })
            },
+           getdetail (name) {
+           console.log(name)
+           console.log(typeof(name))
+           this.loading2 = true
+           axios.get('https://health.lisa.moe/api/wiki/disease/?name=' + name)
+               .then(res => {
+                   this.detail = res.data
+                   sessionStorage.setItem('sdetail',JSON.stringify(this.detail))
+                   this.loading = false
+                   this.$router.push({
+                       name:'symdetail',
+                       params:{
+                           detail:this.detail,
+                       }
+                   })
+               }).catch(error => {
+               console.log(error)
+               this.loading2 = false
+             })
+
+         },
        }
     }
 </script>
