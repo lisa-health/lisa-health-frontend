@@ -16,14 +16,29 @@
                 </v-card-actions>
 
                 <v-card>
-                    <v-card-title class="subheading font-italic font-weight-regular justify-space-between ">
-                        <span style="color:#fa7298">{{ currentTitle }}</span>
-                    </v-card-title>
+                   <!-- <v-stepper non-linear v-model="step">
+                        <v-stepper-header>
+                            <v-stepper-step step="1" editable @click="step=1">
+                                {{step === 1 ? "第一科室" : icons[first].name}}
+                            </v-stepper-step>
+                            <v-divider></v-divider>
+                            <v-stepper-step step="2">
+                                第二科室
+                            </v-stepper-step>
+                        </v-stepper-header>
+                    </v-stepper>-->
+                 <v-card-title class="subheading font-italic font-weight-regular justify-space-between ">
+                    <span style="color:#fa7298">{{ currentTitle }}</span>
+                 </v-card-title>
+                   <!-- <v-btn flat  :disabled="step === 1" @click="step&#45;&#45;" color="primary">{{secondDepartment[1]? icons[first].name:"第一科室"}}</v-btn>
+                    <span v-if="secondDepartment[1]" style="color:#fa7298">> </span>
+                    <v-btn  :disabled="step==2" @click="step++" color="primary" flat v-if="secondDepartment[1]">第二科室</v-btn>-->
                     <v-window v-model="step">
                         <!--window  1-->
                         <v-window-item :value="1">
                             <v-container fluid>
                                 <v-layout row wrap>
+
                                     <v-flex v-for="(i,index) in icons" :key="index" xs4 justify-center align-self-center
                                             @click="toSecond(index)">
                                         <v-btn block flat large disabled>
@@ -33,7 +48,6 @@
                                         </v-btn>
                                         <p class="text-xs-center">{{i.name}}</p>
                                         <v-divider v-if="index<12"></v-divider>
-
                                     </v-flex>
                                 </v-layout>
                             </v-container>
@@ -52,6 +66,7 @@
                                             </svg>
                                         </v-btn>
                                         <p class="text-xs-center">{{secondDepartment[i]}}</p>
+                                        <v-divider v-if="Math.ceil((i+1)/3)!=Math.ceil(secondDepartment.length/3)"></v-divider>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
