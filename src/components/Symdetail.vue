@@ -9,10 +9,10 @@
             <div >
               <p class='display-3' id='tit001'>
                 <p class="display-3 digest">{{ result[0].name }}</p>
-                <v-chip color="symchip1" text-color="white" >
+                <v-chip color="symchip1" text-color="white" @click="backfirst">
                   {{result[0].firstDepartment}}</v-chip>
                   <router-link to="symlist">
-                    <v-chip color="symchip2" text-color="white" >
+                    <v-chip color="symchip2" text-color="white" @click="backsecond">
                       {{result[0].secondDepartment}}</v-chip>
                   </router-link>
                   <v-btn flat icon color="red" @click="flipBookmark">
@@ -238,7 +238,23 @@
                 element: e
               }
             })
-          }
+          },
+          backsecond(){
+            this.$router.push({
+                name: 'symlab',
+                params: {
+                    secondDep: this.result[0].secondDepartment
+                }
+            })
+          },
+          backfirst(){
+            this.$router.push({
+                name: 'symlab',
+                params: {
+                    firstDep: this.result[0].firstDepartment
+                }
+            })
+          },
                // getData(){
                //   // this.length = Object.getOwnPropertyNames(this.result[0]).length
                //   this.complication = this.result[0].complication

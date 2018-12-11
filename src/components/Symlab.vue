@@ -161,6 +161,23 @@
                 content	string	疾病内容*/
             }
         },
+        created(){
+          if(this.$route.params.firstDep){
+            for(var i=0;i<this.icons.length;i++)
+            {
+              if(this.$route.params.firstDep==this.icons[i].name){
+                this.toSecond(i)
+                break
+                console.log("11111")
+              }
+            }
+
+
+          }
+        if(this.$route.params.secondDep){
+          this.toSymList(this.$route.params.secondDep)
+        }
+        },
         /* created() {
              for (var i = 0; i < this.icons.length; i++) {
                  axios.get('https://health.lisa.moe/api/wiki/disease/?firstDepartment=' + this.icons[i].name + '&brief=true')
