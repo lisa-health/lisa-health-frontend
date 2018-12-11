@@ -29,6 +29,7 @@
                 <v-chip color="warning" v-for="(relate, i) in result.relateSymptoms" :key="i">{{relate}}</v-chip>
               </v-card-text>
               <v-card-text>{{ result.detailSymptom }}</v-card-text>
+              <v-btn dark color="button2" round @click="showDetailOf(result.alterName)">详情</v-btn>
           </v-card>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -69,6 +70,16 @@ export default {
         }).catch(error => {
           console.log(error)
           this.loading = false
+        })
+      },
+      showDetailOf(name) {
+        axios.get(`https://health.lisa.moe/api/wiki/disease/?name=${name}`).then(d => d.data).then(data => {
+          this.$router.push({
+            name: 'symdetail',
+            params: {
+                sdetail: data,
+            }
+          })
         })
       }
     },

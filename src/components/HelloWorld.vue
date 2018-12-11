@@ -23,6 +23,12 @@
               <v-btn color="primary" round to="/diagnosis">
                 <div class="iconfont">&#xe617;</div>
               </v-btn>
+              <v-btn color="primary" round to="/aids">
+                <div class="iconfont">&#xe62d;</div>
+              </v-btn>
+              <v-btn color="primary" round to="/symlab">
+                <div class="iconfont">&#xe626;</div>
+              </v-btn>
               <v-btn color="primary" round to="/hospital-search">
                 <div class="iconfont">&#xe619;</div>
               </v-btn>

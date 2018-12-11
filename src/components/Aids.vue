@@ -2,15 +2,16 @@
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex xs12 sm6>
-        <v-text-field
+        <v-autocomplete
           label="What's wrong?"
           v-model="symmsg"
-          @keyup.enter="getresult"
+          :items="totalAids"
           hint="Describe your symptom message"
-        ></v-text-field>
+        ></v-autocomplete>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
+            v-if="false"
             :disabled="!symmsg"
             @click="getresult"
             round
@@ -70,12 +71,13 @@ export default {
       alert_message: "",
       array: [],
       list: [],
+      totalAids: [],
       openedPanel: null
     };
   },
   mounted() {
     axios.get("https://health.lisa.moe/api/tool/aid/all").then(outcome => {
-      this.array = outcome.result;
+      this.array = this.totalAids = outcome.result;
       /* console.log(this.array) */
     });
   },
@@ -119,17 +121,26 @@ export default {
           this.isMessage = false;
           this.alert_message = "出错了啊";
         });
+    },
+    onPanelOpened(val) {
+      this.getmessage(this.array[val]);
+      this.isLoading = true;
     }
   },
   watch: {
     symmsg() {
+      this.openedPanel = null;
       this.result = [];
       this.isMessage = false;
       this.warning = false;
+      if(this.symmsg) this.array = this.totalAids.filter(x => x.startsWith(this.symmsg))
+      else this.array = this.totalAids
+      if(this.array.length === 1) {
+        this.onPanelOpened(this.openedPanel = 0);
+      }
     },
     openedPanel(val) {
-      this.getmessage(this.array[val]);
-      this.isLoading = true;
+      this.onPanelOpened(val)
     }
   }
 };

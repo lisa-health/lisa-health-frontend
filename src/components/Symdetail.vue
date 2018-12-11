@@ -32,7 +32,7 @@
              <v-spacer></v-spacer>
              <p class='display-1' id='tit003'>发病症状<v-btn class="iconfont" depressed flat icon><v-icon>favorite</v-icon></v-btn></p>
              <v-card dark color="green">
-              <v-card-text><p v-for="(i,j) in result[0].symptoms">{{j+1}}. {{  i  }}</p> </v-card-text>
+              <v-card-text><p :key="i" v-for="(i,j) in result[0].symptoms">{{j+1}}. {{  i  }}</p> </v-card-text>
              </v-card>
            </div>
          </v-flex>
