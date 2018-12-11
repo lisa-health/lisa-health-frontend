@@ -14,6 +14,7 @@
     "jshint": "^2.9.6",
     "lodash": "^4.17.11",
     "material-design-icons-iconfont": "^3.0.3",
+    "materialize-css": "^1.0.0",
     "register-service-worker": "^1.0.0",
     "roboto-fontface": "*",
     "v-charts": "^1.19.0",

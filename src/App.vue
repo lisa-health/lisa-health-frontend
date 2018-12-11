@@ -16,7 +16,7 @@
         <v-icon>menu</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-content>
+    <v-content id="content">
       <v-scale-transition hide-on-leave>
         <router-view></router-view>
       </v-scale-transition>

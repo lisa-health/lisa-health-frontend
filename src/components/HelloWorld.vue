@@ -33,6 +33,12 @@
                 <div class="iconfont">&#xe619;</div>
               </v-btn>
             </div>
+            <div v-if="bookmarks.length">
+              <h1>我的收藏</h1>
+              <v-btn color="warning" v-for="bm in bookmarks" :key="bm.name" @click="showDetails(bm)">
+                {{bm.name}}
+              </v-btn>
+            </div>
             <!-- <v-btn color="primary" @click="getLrc">
               <v-icon>refresh</v-icon>
             </v-btn> -->
@@ -45,6 +51,8 @@
 
 <script>
 import axios from '../utils/axios'
+import {BookmarkManager} from '../utils/bookmark'
+const bookmark = new BookmarkManager('diseaseBookmark')
 export default {
   name: 'HelloWorld',
   props: {
@@ -61,7 +69,8 @@ export default {
         type: '',
         picUrl: '',
         id: 0
-      }
+      },
+      bookmarks: []
     }
   },
   computed: {
@@ -74,7 +83,18 @@ export default {
       axios.get('https://roselia.moe/blog/api/roselia/lyric/random').then(data => {
         this.lyric = data
       })
+    },
+    showDetails(detail) {
+      this.$router.push({
+        name: 'symdetail',
+        params: {
+            sdetail: [detail],
+        }
+      })
     }
+  },
+  created() {
+    this.bookmarks = bookmark.items()
   }
 }
 </script>
