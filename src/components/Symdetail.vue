@@ -41,12 +41,12 @@
           </v-flex>
         </v-timeline-item>
 
-        <v-timeline-item fill-dot color="pink">
+        <v-timeline-item fill-dot color="symtext1">
           <v-flex md10 sm10 xs10>
             <div>
               <v-spacer></v-spacer>
               <p class='display-1 digest' id="tit004">并发症</p>
-              <v-card dark color="pink">
+              <v-card dark color="symtext1">
                 <v-card-text class="ctext"> {{  result[0].complication }}</v-card-text>
               </v-card>
             </div>
@@ -101,12 +101,12 @@
           </v-flex>
         </v-timeline-item>
 
-        <v-timeline-item fill-dot color="secondary" v-if="result[0].inspect">
+        <v-timeline-item fill-dot color="symtext2" v-if="result[0].inspect">
           <v-flex md10 sm10 xs10>
             <div>
               <v-spacer></v-spacer>
               <p class='display-1 digest' id='tit009'>诊断方法</p>
-              <v-card dark color="secondary">
+              <v-card dark color="symtext2">
                 <v-card-text class="ctext"> {{  result[0].inspect }} </v-card-text>
               </v-card>
             </div>

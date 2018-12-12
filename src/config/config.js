@@ -10,6 +10,9 @@ export default {
       symchip1: "#3CB371",
       symchip2: "#FF6A6A",
       button1: "#66ccff",
-      button2: "#836FFF"
+      button2: "#836FFF",
+      symtext1: "#FF69B4",
+      symtext2: "#9ACD32",
+      favblock: "#FF8C00"
   }
 }

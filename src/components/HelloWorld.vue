@@ -35,7 +35,7 @@
             </div>
             <div v-if="bookmarks.length">
               <h1>我的收藏</h1>
-              <v-btn color="warning" v-for="bm in bookmarks" :key="bm.name" @click="showDetails(bm)">
+              <v-btn color="info" v-for="bm in bookmarks" :key="bm.name" @click="showDetails(bm)">
                 {{bm.name}}
               </v-btn>
             </div>

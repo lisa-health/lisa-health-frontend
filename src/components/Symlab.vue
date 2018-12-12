@@ -168,7 +168,6 @@
               if(this.$route.params.firstDep==this.icons[i].name){
                 this.toSecond(i)
                 break
-                console.log("11111")
               }
             }
 
