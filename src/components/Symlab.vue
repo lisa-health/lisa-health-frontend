@@ -161,7 +161,7 @@
                 content	string	疾病内容*/
             }
         },
-        created(){
+        mounted(){
           if(this.$route.params.firstDep){
             for(var i=0;i<this.icons.length;i++)
             {

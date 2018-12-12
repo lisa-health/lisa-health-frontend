@@ -55,7 +55,7 @@
              loading2:false,
             }
         },
-        created(){
+        mounted(){
           this.getRouterData()
         },
        methods: {

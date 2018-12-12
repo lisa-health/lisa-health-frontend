@@ -11,10 +11,8 @@
                 <p class="display-3 digest">{{ result[0].name }}</p>
                 <v-chip color="symchip1" text-color="white" @click="backfirst">
                   {{result[0].firstDepartment}}</v-chip>
-                  <router-link to="symlist">
                     <v-chip color="symchip2" text-color="white" @click="backsecond">
                       {{result[0].secondDepartment}}</v-chip>
-                  </router-link>
                   <v-btn flat icon color="red" @click="flipBookmark">
                     <v-icon>favorite{{ isBookMarked ? "" : "_border"}}</v-icon>
                   </v-btn>
