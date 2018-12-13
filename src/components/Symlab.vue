@@ -3,7 +3,7 @@
         <v-layout align-center justify-center>
             <v-flex xs12 sm6>
                 <v-text-field
-                        label="你是想找尿频还是肾亏呢^_^"
+                        label="请输入想要查询的病症"
                         v-model="symmsg"
                         @keyup.enter="getresult"
                         hint="你想查些什么呢^_^"
